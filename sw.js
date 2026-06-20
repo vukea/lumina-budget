@@ -1,4 +1,4 @@
-const CACHE = 'lumina-v1';
+const CACHE = 'lumina-v2';
 const ASSETS = [
   '/lumina-budget/',
   '/lumina-budget/index.html',
