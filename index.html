@@ -13,6 +13,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
+/* ══ VIEWPORT HEIGHT (mobile URL-bar fix) ══ */
+(function(){
+  function setVH(){ document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px'); }
+  setVH();
+  window.addEventListener('resize', setVH);
+})();
+
 /* ══ SHARED CONSTANTS ══ */
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -1603,26 +1610,30 @@ function submitSvGoal() {
   --fb: 'Inter', sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #0d0d0d; margin: 0; padding: 0; font-family: var(--fb); height: 100dvh; overflow: hidden; }
+html { height: 100%; }
+body { background: #0d0d0d; margin: 0; padding: 0; font-family: var(--fb); height: 100%; min-height: -webkit-fill-available; overflow: hidden; }
 
 /* ══ APP SHELL ══ */
 .phone {
+  position: fixed;
+  top: 0; left: 0;
   width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  height: 100dvh;
   background: #0d0d0d;
   display: flex;
   flex-direction: column;
-  height: 100dvh;
   overflow: hidden;
-  position: relative;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .notch { display: none; }
-.scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-bottom: 16px; background: #0d0d0d; }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-bottom: 0; background: #0d0d0d; }
 .scroll::-webkit-scrollbar { display: none; }
 
 /* ══ HEADER ══ */
-.hdr { background: #141414; padding: 10px 20px 16px; border-bottom: 1px solid #1e1e1e; }
+.hdr { background: #141414; padding: 0 20px 16px; border-bottom: 1px solid #1e1e1e; }
 .hdr-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .hdr-label { font-size: 10px; color: #3a3a3a; letter-spacing: 1.8px; text-transform: uppercase; }
 .hdr-icons { display: flex; gap: 14px; align-items: center; }
@@ -1646,7 +1657,7 @@ body { background: #0d0d0d; margin: 0; padding: 0; font-family: var(--fb); heigh
 
 /* ══ WIDGET ══ */
 .widget {
-  background: #fff; margin: 10px 12px;
+  background: #fff; margin: 0 12px;
   border-radius: 22px; padding: 14px 15px 16px;
   box-shadow: 0 2px 20px rgba(0,0,0,0.10), inset 0 0 0 1px rgba(0,0,0,0.04);
   overflow: hidden;
