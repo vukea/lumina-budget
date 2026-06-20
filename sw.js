@@ -1,24 +1,23 @@
-const CACHE = 'lumina-v4';
-const ASSETS = [
-  '/lumina-budget/',
-  '/lumina-budget/index.html',
-  'https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap',
-  'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css',
-  'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js'
-];
+/* ══ KILL-SWITCH SERVICE WORKER ══
+   The previous worker cached HTML/CSS cache-first, which left devices
+   stuck on a stale layout. This replacement self-destructs: the browser
+   re-checks sw.js on navigation, sees it changed, installs this version,
+   then on activate it wipes every cache, unregisters itself, and reloads
+   open clients so they fetch the latest page fresh from the network. */
 
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+self.addEventListener('install', () => self.skipWaiting());
+
+self.addEventListener('activate', event => {
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.map(k => caches.delete(k)));
+    await self.registration.unregister();
+    const clients = await self.clients.matchAll({ type: 'window' });
+    clients.forEach(client => client.navigate(client.url));
+  })());
 });
 
-self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(keys =>
-    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-  ).then(() => self.clients.claim()));
-});
-
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => caches.match('/lumina-budget/index.html')))
-  );
+/* Pass-through fetch: never serve from cache again. */
+self.addEventListener('fetch', event => {
+  event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
 });
