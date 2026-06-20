@@ -2193,7 +2193,13 @@ body.theme-light .txn-month-all-btn.active { background: #eee; color: #555; }
 .ai-pt p { font-size: 11px; color: rgba(255,255,255,0.88); line-height: 1.55; }
 
 /* ══ BOTTOM NAV ══ */
-.bot-nav { flex-shrink: 0; background: #101010; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); z-index: 10; }
+.bot-nav { flex-shrink: 0; background: #101010; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; padding: 8px 0; z-index: 10; }
+/* Only pad for the home indicator when running as an installed app —
+   in Safari the browser toolbar already covers that zone, so the extra
+   padding would just create a dark gap above the toolbar. */
+@media (display-mode: standalone) {
+  .bot-nav { padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
+}
 .nav-it { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 9px; color: #333; cursor: pointer; padding: 4px 10px; border-radius: 12px; transition: color 0.2s; }
 .nav-it.on { color: var(--primary); background: rgba(171,214,0,0.08); }
 .nav-it i { font-size: 21px; }
