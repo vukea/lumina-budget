@@ -1621,11 +1621,11 @@ body { height: 100%; margin: 0; padding: 0; font-family: var(--fb); background: 
   padding-bottom: env(safe-area-inset-bottom);
 }
 .notch { display: none; }
-.scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-bottom: 16px; background: #0d0d0d; -webkit-overflow-scrolling: touch; }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-bottom: 0; background: #0d0d0d; -webkit-overflow-scrolling: touch; }
 .scroll::-webkit-scrollbar { display: none; }
 
 /* ══ HEADER ══ */
-.hdr { background: #141414; padding: 10px 20px 16px; border-bottom: 1px solid #1e1e1e; }
+.hdr { background: #141414; padding: 0 20px 16px; border-bottom: 1px solid #1e1e1e; }
 .hdr-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .hdr-label { font-size: 10px; color: #3a3a3a; letter-spacing: 1.8px; text-transform: uppercase; }
 .hdr-icons { display: flex; gap: 14px; align-items: center; }
@@ -1649,7 +1649,7 @@ body { height: 100%; margin: 0; padding: 0; font-family: var(--fb); background: 
 
 /* ══ WIDGET ══ */
 .widget {
-  background: #fff; margin: 10px 12px;
+  background: #fff; margin: 0 12px;
   border-radius: 22px; padding: 14px 15px 16px;
   box-shadow: 0 2px 20px rgba(0,0,0,0.10), inset 0 0 0 1px rgba(0,0,0,0.04);
   overflow: hidden;
@@ -2189,7 +2189,7 @@ body.theme-light .txn-month-all-btn.active { background: #eee; color: #555; }
 /* ══ TAB SCREENS ══ */
 .tab-screen { display: none; flex: 1; min-height: 0; overflow: hidden; background: #0d0d0d; }
 .tab-screen.active { display: flex; flex-direction: column; }
-.tab-scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-bottom: 16px; -webkit-overflow-scrolling: touch; }
+.tab-scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-bottom: 0; -webkit-overflow-scrolling: touch; }
 .tab-scroll::-webkit-scrollbar { display: none; }
 
 /* shared section wrappers */
@@ -2316,7 +2316,7 @@ body.theme-light .txn-month-all-btn.active { background: #eee; color: #555; }
 
 /* ── better section spacing consistency ── */
 .of-section { margin: 0 12px 10px; border-radius: 20px; padding: 16px; }
-.tab-scroll  { padding-bottom: 24px; }
+.tab-scroll  { padding-bottom: 0; }
 
 /* ── outflow vs-actual target bar ── */
 .of-vs-bar-t { background: rgba(0,0,0,0.15) !important; }
