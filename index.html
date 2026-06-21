@@ -50,14 +50,8 @@ function switchTab(name) {
     const el=document.getElementById('tab-'+t);
     if(el) el.classList.toggle('on', t===name);
   });
-  // scroll tab screen to top
-  if (name !== 'home') {
-    const scr = document.querySelector('#screen-' + name + ' .tab-scroll');
-    if (scr) scr.scrollTop = 0;
-  } else {
-    const scr = document.querySelector('.scroll');
-    if (scr) scr.scrollTop = 0;
-  }
+  // the document scrolls now, so reset the page to the top on tab change
+  window.scrollTo(0, 0);
   if(name==='outflow' && !ofInited) initOutflow();
   if(name==='savings' && !svInited) { svInited=true; initSavingsTab(); }
   if(name==='debt'    && !dtInited) { dtInited=true; initDebtTab();    }
@@ -1624,21 +1618,24 @@ function submitSvGoal() {
   --fb: 'Inter', sans-serif;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { height: 100%; }
-body { background: #0d0d0d; margin: 0; padding: 0; font-family: var(--fb); height: 100%; min-height: -webkit-fill-available; overflow: hidden; }
+html { background: #0d0d0d; }
+/* The whole document scrolls (like a normal web page) so mobile browsers
+   minimise their toolbar on scroll and content fills the full screen. */
+body { background: #0d0d0d; margin: 0; padding: 0; font-family: var(--fb); -webkit-overflow-scrolling: touch; }
 
 /* ══ APP SHELL ══ */
+/* Height of the fixed bottom nav, used to pad scroll content so the last
+   items aren't hidden behind it. */
+:root { --nav-h: calc(58px + env(safe-area-inset-bottom)); }
 .phone {
-  position: fixed;
-  inset: 0;            /* top/right/bottom/left: 0 → fills full screen,
-                          incl. safe areas thanks to viewport-fit=cover */
+  min-height: 100vh;
+  min-height: 100dvh;
   background: #0d0d0d;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 .notch { display: none; }
-.scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-bottom: 0; background: #0d0d0d; }
+.scroll { flex: 1; padding-bottom: var(--nav-h); background: #0d0d0d; }
 .scroll::-webkit-scrollbar { display: none; }
 
 /* ══ HEADER ══ */
@@ -2195,13 +2192,11 @@ body.theme-light .txn-month-all-btn.active { background: #eee; color: #555; }
 .ai-pt p { font-size: 11px; color: rgba(255,255,255,0.88); line-height: 1.55; }
 
 /* ══ BOTTOM NAV ══ */
-.bot-nav { flex-shrink: 0; background: #101010; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; padding: 8px 0; z-index: 10; }
-/* Only pad for the home indicator when running as an installed app —
-   in Safari the browser toolbar already covers that zone, so the extra
-   padding would just create a dark gap above the toolbar. */
-@media (display-mode: standalone) {
-  .bot-nav { padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
-}
+/* Pinned to the bottom of the viewport. env(safe-area-inset-bottom)
+   resolves to 0 while the browser toolbar is shown and to the home-
+   indicator inset once the toolbar minimises / when installed, so the
+   bar always sits flush with no gap. */
+.bot-nav { position: fixed; bottom: 0; left: 0; right: 0; background: #101010; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-around; align-items: center; padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); z-index: 100; }
 .nav-it { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 9px; color: #333; cursor: pointer; padding: 4px 10px; border-radius: 12px; transition: color 0.2s; }
 .nav-it.on { color: var(--primary); background: rgba(171,214,0,0.08); }
 .nav-it i { font-size: 21px; }
@@ -2210,9 +2205,9 @@ body.theme-light .txn-month-all-btn.active { background: #eee; color: #555; }
 .nav-plus i { font-size: 22px; color: #111; }
 
 /* ══ TAB SCREENS ══ */
-.tab-screen { display: none; flex: 1; min-height: 0; overflow: hidden; background: #0d0d0d; }
-.tab-screen.active { display: flex; flex-direction: column; }
-.tab-scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-bottom: 16px; }
+.tab-screen { display: none; flex: 1; background: #0d0d0d; }
+.tab-screen.active { display: block; }
+.tab-scroll { padding-bottom: var(--nav-h); }
 .tab-scroll::-webkit-scrollbar { display: none; }
 
 /* shared section wrappers */
@@ -2339,7 +2334,7 @@ body.theme-light .txn-month-all-btn.active { background: #eee; color: #555; }
 
 /* ── better section spacing consistency ── */
 .of-section { margin: 0 12px 10px; border-radius: 20px; padding: 16px; }
-.tab-scroll  { padding-bottom: 24px; }
+.tab-scroll  { padding-bottom: calc(24px + var(--nav-h)); }
 
 /* ── outflow vs-actual target bar ── */
 .of-vs-bar-t { background: rgba(0,0,0,0.15) !important; }
