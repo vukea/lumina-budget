@@ -1639,7 +1639,7 @@ body { background: #0d0d0d; margin: 0; padding: 0; font-family: var(--fb); -webk
 .scroll::-webkit-scrollbar { display: none; }
 
 /* ══ HEADER ══ */
-.hdr { background: #141414; padding: 0 20px 16px; border-bottom: 1px solid #1e1e1e; }
+.hdr { background: #141414; padding: calc(16px + env(safe-area-inset-top)) 20px 16px; border-bottom: 1px solid #1e1e1e; }
 .hdr-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
 .hdr-label { font-size: 10px; color: #3a3a3a; letter-spacing: 1.8px; text-transform: uppercase; }
 .hdr-icons { display: flex; gap: 14px; align-items: center; }
@@ -2720,15 +2720,6 @@ body.theme-light .sv-mot-stat { background: rgba(0,0,0,0.05) !important; }
     <div class="hdr">
       <div class="hdr-row">
         <span class="hdr-label">Overview</span>
-        <div class="hdr-icons">
-          <div class="bell-wrap">
-            <i class="ti ti-bell"></i>
-            <div class="bell-dot"></div>
-          </div>
-          <button class="burger-btn" onclick="openSettings()" aria-label="Settings">
-            <i class="ti ti-menu-2"></i>
-          </button>
-        </div>
       </div>
       <div class="greeting" id="greetingEl">Hello, Alexia! 👋</div>
       <div class="sub">You have <strong>3 bills</strong> due this week</div>
@@ -2948,9 +2939,7 @@ body.theme-light .sv-mot-stat { background: rgba(0,0,0,0.05) !important; }
         <div class="hdr-row">
           <span class="hdr-label">Outflow</span>
           <div class="hdr-icons">
-            <i class="ti ti-calendar" style="color:#555"></i>
-            <button class="burger-btn" onclick="openSettings()" aria-label="Settings"><i class="ti ti-menu-2"></i></button>
-          </div>
+            <i class="ti ti-calendar" style="color:#555"></i>          </div>
         </div>
         <div class="greeting" style="font-size:21px">June 2026</div>
         <div class="sub">Track targets vs actual spend</div>
@@ -3043,9 +3032,7 @@ body.theme-light .sv-mot-stat { background: rgba(0,0,0,0.05) !important; }
         <div class="hdr-row">
           <span class="hdr-label">Savings</span>
           <div class="hdr-icons">
-            <i class="ti ti-calendar" style="color:#abd600"></i>
-            <button class="burger-btn" onclick="openSettings()" aria-label="Settings"><i class="ti ti-menu-2"></i></button>
-          </div>
+            <i class="ti ti-calendar" style="color:#abd600"></i>          </div>
         </div>
         <div class="greeting" style="font-size:21px">June 2026</div>
         <div class="sub">Track each savings goal separately</div>
@@ -3309,9 +3296,7 @@ body.theme-light .sv-mot-stat { background: rgba(0,0,0,0.05) !important; }
         <div class="hdr-row">
           <span class="hdr-label">Debt</span>
           <div class="hdr-icons">
-            <i class="ti ti-calendar" style="color:#abd600"></i>
-            <button class="burger-btn" onclick="openSettings()" aria-label="Settings"><i class="ti ti-menu-2"></i></button>
-          </div>
+            <i class="ti ti-calendar" style="color:#abd600"></i>          </div>
         </div>
         <div class="greeting" style="font-size:21px">June 2026</div>
         <div class="sub">Track and crush your debt</div>
@@ -3491,7 +3476,7 @@ body.theme-light .sv-mot-stat { background: rgba(0,0,0,0.05) !important; }
   <div class="bot-nav">
     <div class="nav-it on"  onclick="switchTab('home')"      id="tab-home"><i class="ti ti-layout-dashboard"></i><span>Home</span></div>
     <div class="nav-it"     onclick="switchTab('outflow')"   id="tab-outflow"><i class="ti ti-arrow-up-circle"></i><span>Outflow</span></div>
-    <div class="nav-plus"   onclick="openSettings()"         id="tab-pie" aria-label="Settings"><i class="ti ti-chart-pie"></i></div>
+    <div class="nav-plus"   onclick="openSettings()"         id="tab-pie" aria-label="Settings"><i class="ti ti-settings"></i></div>
     <div class="nav-it"     onclick="switchTab('savings')"   id="tab-savings"><i class="ti ti-shield"></i><span>Savings</span></div>
     <div class="nav-it"     onclick="switchTab('debt')"      id="tab-debt"><i class="ti ti-credit-card"></i><span>Debt</span></div>
   </div>
